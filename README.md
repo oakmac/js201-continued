@@ -4,7 +4,8 @@ This repo contains programming exercises designed for someone who is new to
 programming. The exercises here are a continuation of the exercises found in
 [js201].
 
-These exercises use Strings, loops, Objects, and Arrays to solve logic problems.
+These exercises use Strings, loops, Objects, Arrays, and Functions to solve
+logic problems.
 
 ## Install
 
