@@ -237,7 +237,7 @@ function checkFizzbuzz () {
   const moduleFileName = '../' + moduleName('exercisess/03-fizzbuzz.js')
   let module = getModule(moduleFileName)
 
-  it('03-fizzbuzz.js should have one functions: fizzbuzz', function () {
+  it('03-fizzbuzz.js should have one function: fizzbuzz', function () {
     assert(isFn(module.fizzbuzz), 'function "fizzbuzz" not found')
   })
 
@@ -255,7 +255,7 @@ function checkGcd () {
   const moduleFileName = '../' + moduleName('exercises/04-greatest-common-factor.js')
   let module = getModule(moduleFileName)
 
-  it('04-greatest-common-factor.js should have one functions: gcd', function () {
+  it('04-greatest-common-factor.js should have one function: gcd', function () {
     assert(isFn(module.gcd), 'function "gcd" not found')
   })
 
@@ -326,7 +326,7 @@ function checkCities () {
   const moduleFileName = '../' + moduleName('exercises/06-cities.js')
   let module = getModule(moduleFileName)
 
-  it('06-cities.js should have one functions: coolCities, cityNames', function () {
+  it('06-cities.js should have two functions: coolCities, cityNames', function () {
     assert(isFn(module.coolCities), 'function "coolCities" not found')
     assert(isFn(module.cityNames), 'function "cityNames" not found')
   })
@@ -386,7 +386,7 @@ function checkRecognize () {
   const moduleFileName = '../' + moduleName('exercises/07-recognize-employees.js')
   let module = getModule(moduleFileName)
 
-  it('07-recognize-employees.js should have one functions: recognizeEmployees', function () {
+  it('07-recognize-employees.js should have one function: recognizeEmployees', function () {
     assert(isFn(module.recognizeEmployees), 'function "recognizeEmployees" not found')
   })
 
@@ -461,6 +461,43 @@ function checkSorting () {
   })
 }
 
+// -----------------------------------------------------------------------------
+// 09 call N times
+// -----------------------------------------------------------------------------
+
+function checkCallNTimes () {
+  const moduleFileName = '../' + moduleName('exercises/09-call-n-times.js')
+  let module = getModule(moduleFileName)
+
+  it('09-call-n-times.js should have one function: callNTimes', function () {
+    assert(isFn(module.callNTimes), 'function "callNTimes" not found')
+  })
+
+  let count1 = 0
+  function counter1 () {
+    count1 = count1 + 1
+  }
+
+  let count2 = 0
+  function counter2 () {
+    count2 = count2 + 1
+  }
+
+  it('"callNTimes" function', function () {
+    if (isFn(module.callNTimes)) {
+      module.callNTimes(21, counter1)
+      module.callNTimes(112, counter2)
+    }
+
+    assert.deepStrictEqual(count1, 21, '"callNTimes(21, fn)" should execute "fn" 21 times')
+    assert.deepStrictEqual(count2, 112, '"callNTimes(112, fn)" should execute "fn" 112 times')
+  })
+}
+
+// -----------------------------------------------------------------------------
+// Run the tests
+// -----------------------------------------------------------------------------
+
 describe('JavaScript Syntax', checkJSSyntax)
 
 // only run the test suite if there were no syntax errors
@@ -474,5 +511,6 @@ if (allSyntaxValid) {
   describe('Cities Functions', checkCities)
   describe('Recognize Employees Functions', checkRecognize)
   describe('Sorting Arrays', checkSorting)
+  describe('Call N Times', checkCallNTimes)
   destroyModuleFiles()
 }
