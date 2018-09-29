@@ -53,9 +53,6 @@ function runTestFor ({ testFilePath, description, checks }) {
     })
 
     after(`After testing ${description}`, function afterTestForExercise(){
-      if (isParseable !== true) {
-        this.skip()
-      }
       destroyModuleFiles()
     })
 
