@@ -1,24 +1,17 @@
 const {
   assert,
-  createModuleFile,
-  getExerciseFileFromTestFile,
-  moduleName,
-  getModule,
-  destroyModuleFile,
+  runTestFor,
   isFn,
 } = require('./utils')
 
 // -----------------------------------------------------------------------------
 // 09 call N times
 // -----------------------------------------------------------------------------
-const exerciseFileName = getExerciseFileFromTestFile(__filename)
-const moduleFileName = '../' + moduleName(exerciseFileName)
-
-function checkCallNTimes () {
-  let module = getModule(moduleFileName)
-
+function checkCallNTimes (getExerciseModule) {
   it('09-call-n-times.js should have one function: callNTimes', function () {
-    assert(isFn(module.callNTimes), 'function "callNTimes" not found')
+    const exerciseModule = getExerciseModule()
+
+    assert(isFn(exerciseModule.callNTimes), 'function "callNTimes" not found')
   })
 
   let count1 = 0
@@ -32,9 +25,11 @@ function checkCallNTimes () {
   }
 
   it('"callNTimes" function', function () {
-    if (isFn(module.callNTimes)) {
-      module.callNTimes(21, counter1)
-      module.callNTimes(112, counter2)
+    const exerciseModule = getExerciseModule()
+
+    if (isFn(exerciseModule.callNTimes)) {
+      exerciseModule.callNTimes(21, counter1)
+      exerciseModule.callNTimes(112, counter2)
     }
 
     assert.deepStrictEqual(count1, 21, '"callNTimes(21, fn)" should execute "fn" 21 times')
@@ -42,6 +37,8 @@ function checkCallNTimes () {
   })
 }
 
-createModuleFile(exerciseFileName)
-describe('Call N Times', checkCallNTimes)
-destroyModuleFile(moduleFileName)
+runTestFor({
+  testFilePath: __filename,
+  description: 'Call N Times',
+  checks: checkCallNTimes,
+})

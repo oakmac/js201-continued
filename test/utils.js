@@ -35,21 +35,37 @@ let allSyntaxValid = true
 // -----------------------------------------------------------------------------
 module.exports = {
     assert,
-    getTopLevelFunctions,
-    getExerciseFileFromTestFile,
-    moduleName,
-    moduleExportStatement,
-    createModuleFile,
-    createModuleFiles,
-    destroyModuleFiles,
-    checkFileSyntax,
-    checkJSSyntax,
-    exerciseFiles,
+    runTestFor,
     isFn,
-    getModule,
-    destroyModuleFiles,
-    destroyModuleFile,
 }
+
+function runTestFor ({ testFilePath, description, checks }){
+  const exerciseFileName = getExerciseFileFromTestFile(testFilePath)
+  const moduleFileName = moduleName(exerciseFileName)
+
+  describe(description, function testForExercise() {
+    let isParseable
+    before(`Before testing ${description}`, function beforeTestForExercise(){
+      isParseable = checkFileSyntax(exerciseFileName)
+      if (isParseable !== true) {
+        this.skip()
+      }
+      createModuleFile(exerciseFileName)
+    })
+
+    after(`After testing ${description}`, function afterTestForExercise(){
+      if (isParseable !== true) {
+        this.skip()
+      }
+      destroyModuleFile(moduleFileName)
+    })
+
+    describe(`Testing ${description}`, function testExercise(){
+      checks(getModule.bind(this, '../' + moduleFileName))
+    })
+  })
+}
+
 
 // -----------------------------------------------------------------------------
 // Module Magic
@@ -103,7 +119,7 @@ function createModuleFiles () {
 }
 
 function destroyModuleFile (f) {
-  fs.removeSync(f)
+  fs.unlinkSync(f)
 }
 
 function destroyModuleFiles () {
@@ -119,29 +135,25 @@ function checkFileSyntax (f) {
 
   // check for empty files
   if (fileContents === '') {
-    it(f + ' is an empty file', function () {
-      assert.fail(f + ' should not be empty')
-    })
-    allSyntaxValid = false
+    assert.fail(f + ' should not be empty')
     return
   }
 
   // try parsing the JS
   let parsed = null
+  let parseError = null
   try {
     parsed = esprima.parseScript(fileContents)
-  } catch (e) { }
-  if (!parsed) {
-    allSyntaxValid = false
-
-    it(f + ' should be valid JavaScript syntax', function () {
-      assert.ok(parsed, f + ' has invalid syntax')
-    })
+  } catch (e) { 
+    parseError = e
   }
-}
 
-function checkJSSyntax () {
-  exerciseFiles.forEach(checkFileSyntax)
+  if (!parsed) {
+    assert.ok(parsed, f + ' has invalid syntax ' + parseError)
+    return
+  }
+
+  return true
 }
 
 // -----------------------------------------------------------------------------
@@ -153,18 +165,18 @@ function isFn (f) {
 }
 
 function getModule (f) {
-  let module
+  let targetModule
   try {
-    module = require(f)
+    targetModule = require(f)
   } catch (e) {
     return null
   }
 
-  if (!module) {
+  if (!targetModule) {
     it('Unable to read ' + f, function () {
       assert.fail('Unable to read ' + f)
     })
   }
 
-  return module
+  return targetModule
 }

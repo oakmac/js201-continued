@@ -1,33 +1,30 @@
 const {
   assert,
-  createModuleFile,
-  getExerciseFileFromTestFile,
-  moduleName,
-  getModule,
-  destroyModuleFile,
+  runTestFor,
   isFn,
 } = require('./utils')
 
 // -----------------------------------------------------------------------------
 // 04 GCD
 // -----------------------------------------------------------------------------
-const exerciseFileName = getExerciseFileFromTestFile(__filename)
-const moduleFileName = '../' + moduleName(exerciseFileName)
-
-function checkGcd () {
-  let module = getModule(moduleFileName)
-
+function checkGcd (getExerciseModule) {
   it('04-greatest-common-factor.js should have one function: gcd', function () {
-    assert(isFn(module.gcd), 'function "gcd" not found')
+    const exerciseModule = getExerciseModule()
+
+    assert(isFn(exerciseModule.gcd), 'function "gcd" not found')
   })
 
   it('"gcd" function', function () {
-    assert.deepStrictEqual(module.gcd(5, 1), 1, 'gcd(5, 1) should return 1')
-    assert.deepStrictEqual(module.gcd(3, 15), 3, 'gcd(3, 15) should return 3')
-    assert.deepStrictEqual(module.gcd(50, 20), 10, 'gcd(50, 20) should return 10')
+    const exerciseModule = getExerciseModule()
+
+    assert.deepStrictEqual(exerciseModule.gcd(5, 1), 1, 'gcd(5, 1) should return 1')
+    assert.deepStrictEqual(exerciseModule.gcd(3, 15), 3, 'gcd(3, 15) should return 3')
+    assert.deepStrictEqual(exerciseModule.gcd(50, 20), 10, 'gcd(50, 20) should return 10')
   })
 }
 
-createModuleFile(exerciseFileName)
-describe('gcd function', checkGcd)
-destroyModuleFile(moduleFileName)
+runTestFor({
+  testFilePath: __filename,
+  description: 'GCD Function',
+  checks: checkGcd,
+})

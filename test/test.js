@@ -137,15 +137,5 @@ function getModule (f) {
 }
 
 
-// -----------------------------------------------------------------------------
-// Run the tests
-// -----------------------------------------------------------------------------
 
-describe('JavaScript Syntax', checkJSSyntax)
-
-// only run the test suite if there were no syntax errors
-if (allSyntaxValid) {
-  createModuleFiles()
-
-  destroyModuleFiles()
-}
+// destroyModuleFiles()

@@ -1,32 +1,29 @@
 const {
   assert,
-  createModuleFile,
-  getExerciseFileFromTestFile,
-  moduleName,
-  getModule,
-  destroyModuleFile,
+  runTestFor,
   isFn,
 } = require('./utils')
 
 // -----------------------------------------------------------------------------
 // 03 Fizzbuzz
 // -----------------------------------------------------------------------------
-const exerciseFileName = getExerciseFileFromTestFile(__filename)
-const moduleFileName = '../' + moduleName(exerciseFileName)
-
-function checkFizzbuzz () {
-  let module = getModule(moduleFileName)
-
+function checkFizzbuzz (getExerciseModule) {
   it('03-fizzbuzz.js should have one function: fizzbuzz', function () {
-    assert(isFn(module.fizzbuzz), 'function "fizzbuzz" not found')
+    const exerciseModule = getExerciseModule()
+
+    assert(isFn(exerciseModule.fizzbuzz), 'function "fizzbuzz" not found')
   })
 
   it('"fizzbuzz" function', function () {
-    assert.deepStrictEqual(module.fizzbuzz(3), '..fizz', "fizzbuzz(3) should return '..fizz'")
-    assert.deepStrictEqual(module.fizzbuzz(15), '..fizz.buzzfizz..fizzbuzz.fizz..fizzbuzz', "fizzbuzz(15) should return '..fizz.buzzfizz..fizzbuzz.fizz..fizzbuzz'")
+    const exerciseModule = getExerciseModule()
+
+    assert.deepStrictEqual(exerciseModule.fizzbuzz(3), '..fizz', "fizzbuzz(3) should return '..fizz'")
+    assert.deepStrictEqual(exerciseModule.fizzbuzz(15), '..fizz.buzzfizz..fizzbuzz.fizz..fizzbuzz', "fizzbuzz(15) should return '..fizz.buzzfizz..fizzbuzz.fizz..fizzbuzz'")
   })
 }
 
-createModuleFile(exerciseFileName)
-describe('Fizzbuzz Function', checkFizzbuzz)
-destroyModuleFile(moduleFileName)
+runTestFor({
+  testFilePath: __filename,
+  description: 'Fizzbuzz Function',
+  checks: checkFizzbuzz,
+})

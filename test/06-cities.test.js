@@ -1,29 +1,24 @@
 const {
   assert,
-  createModuleFile,
-  getExerciseFileFromTestFile,
-  moduleName,
-  getModule,
-  destroyModuleFile,
+  runTestFor,
   isFn,
 } = require('./utils')
 
 // -----------------------------------------------------------------------------
 // 06 Cities
 // -----------------------------------------------------------------------------
-const exerciseFileName = getExerciseFileFromTestFile(__filename)
-const moduleFileName = '../' + moduleName(exerciseFileName)
-
-function checkCities () {
-  let module = getModule(moduleFileName)
-
+function checkCities (getExerciseModule) {
   it('06-cities.js should have two functions: coolCities, cityNames', function () {
-    assert(isFn(module.coolCities), 'function "coolCities" not found')
-    assert(isFn(module.cityNames), 'function "cityNames" not found')
+    const exerciseModule = getExerciseModule()
+
+    assert(isFn(exerciseModule.coolCities), 'function "coolCities" not found')
+    assert(isFn(exerciseModule.cityNames), 'function "cityNames" not found')
   })
 
   it('"coolCities" function', function () {
-    assert.deepStrictEqual(module.coolCities([
+    const exerciseModule = getExerciseModule()
+
+    assert.deepStrictEqual(exerciseModule.coolCities([
       { name: 'Los Angeles', temperature: 60.0},
       { name: 'Atlanta', temperature: 52.0 },
       { name: 'Detroit', temperature: 48.0 },
@@ -45,7 +40,9 @@ function checkCities () {
   })
 
   it('"cityNames" function', function () {
-    assert.deepStrictEqual(module.cityNames([
+    const exerciseModule = getExerciseModule()
+
+    assert.deepStrictEqual(exerciseModule.cityNames([
       { name: 'Los Angeles', temperature: 60.0},
       { name: 'Atlanta', temperature: 52.0 },
       { name: 'Detroit', temperature: 48.0 },
@@ -69,6 +66,8 @@ function checkCities () {
   })
 }
 
-createModuleFile(exerciseFileName)
-describe('Cities Functions', checkCities)
-destroyModuleFile(moduleFileName)
+runTestFor({
+  testFilePath: __filename,
+  description: 'Cities Functions',
+  checks: checkCities,
+})
