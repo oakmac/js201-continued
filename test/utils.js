@@ -34,9 +34,9 @@ let allSyntaxValid = true
 // Export functions
 // -----------------------------------------------------------------------------
 module.exports = {
-    assert,
-    runTestFor,
-    isFn,
+  assert,
+  runTestFor,
+  isFn,
 }
 
 function runTestFor ({ testFilePath, description, checks }){
@@ -57,7 +57,7 @@ function runTestFor ({ testFilePath, description, checks }){
       if (isParseable !== true) {
         this.skip()
       }
-      destroyModuleFile(moduleFileName)
+      destroyModuleFiles()
     })
 
     describe(`Testing ${description}`, function testExercise(){
@@ -116,10 +116,6 @@ function createModuleFile (f) {
 
 function createModuleFiles () {
   exerciseFiles.forEach(createModuleFile)
-}
-
-function destroyModuleFile (f) {
-  fs.unlinkSync(f)
 }
 
 function destroyModuleFiles () {
