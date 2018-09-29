@@ -25,12 +25,6 @@ const exportsComment = '\n\n\n\n\n' +
   squigglyLine
 
 // -----------------------------------------------------------------------------
-// Stateful
-// -----------------------------------------------------------------------------
-
-let allSyntaxValid = true
-
-// -----------------------------------------------------------------------------
 // Export functions
 // -----------------------------------------------------------------------------
 module.exports = {
@@ -38,6 +32,11 @@ module.exports = {
   runTestFor,
   isFn,
 }
+
+
+// -----------------------------------------------------------------------------
+// Main test running function for an exercise.
+// -----------------------------------------------------------------------------
 
 function runTestFor ({ testFilePath, description, checks }){
   const exerciseFileName = getExerciseFileFromTestFile(testFilePath)
@@ -61,6 +60,10 @@ function runTestFor ({ testFilePath, description, checks }){
     })
 
     describe(`Testing ${description}`, function testExercise(){
+      // Need to pass the function for getting the module so that
+      // loading the module will be run at test time, as opposed to
+      // during test definition.  Especially important since the
+      // exercise module file only exists during the suite.
       checks(getModule.bind(this, '../' + moduleFileName))
     })
   })
