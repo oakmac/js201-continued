@@ -38,7 +38,7 @@ module.exports = {
 // Main test running function for an exercise.
 // -----------------------------------------------------------------------------
 
-function runTestFor ({ testFilePath, description, checks }){
+function runTestFor ({ testFilePath, description, checks }) {
   const exerciseFileName = getExerciseFileFromTestFile(testFilePath)
   const moduleFileName = moduleName(exerciseFileName)
 
@@ -87,7 +87,7 @@ function getTopLevelFunctions (syntaxTree) {
 }
 
 // example test file path --> exercises filename
-function getExerciseFileFromTestFile(testFilePath) {
+function getExerciseFileFromTestFile (testFilePath) {
     return exercisesDir + path.basename(testFilePath)
         .replace('.test', '')
 }
