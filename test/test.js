@@ -234,7 +234,7 @@ function checkStrings () {
 // -----------------------------------------------------------------------------
 
 function checkFizzbuzz () {
-  const moduleFileName = '../' + moduleName('exercisess/03-fizzbuzz.js')
+  const moduleFileName = '../' + moduleName('exercises/03-fizzbuzz.js')
   let module = getModule(moduleFileName)
 
   it('03-fizzbuzz.js should have one function: fizzbuzz', function () {
