@@ -1,3 +1,7 @@
+# *** PROJECT ARCHIVED - June 2019 ***
+
+> The exercises from this repo have been merged into [js201](https://github.com/oakmac/js201)
+
 # JavaScript 201 Continued - More Programming Exercises
 
 This repo contains programming exercises designed for someone who is new to
